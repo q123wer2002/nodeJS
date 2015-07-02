@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-	<title>Todo List Test</title>
+	<title>If you burn, you will burn with us.</title>
 
 	<!-- SCROLLS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
@@ -30,9 +30,13 @@
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
                 <div class="checkbox" ng-repeat="todo in todos">
-                    <label>
-                        <input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.content }}
-                    </label>
+                    <input type="checkbox" ng-click="deleteTodo(todo._id)">
+                    <a href="javascript:;" ng-click="modify=true" ng-hide="modify">{{ todo.content }}</a>
+                    <div ng-show="modify">
+	                    <span>原來的List : {{todo.content}}</span>
+	                    <input type="text" ng-model="newData.content">
+	                    <input type="button" value="Submit" ng-click="updateTodo(todo._id)">
+	                </div>
                 </div>
 
             </div>

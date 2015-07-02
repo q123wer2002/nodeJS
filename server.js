@@ -35,8 +35,7 @@ app.get('/api/todos',function(req,res){
 app.post('/api/todos',function(req,res){
 	Todo.create({
 		content:req.body.content,
-		updated_at:Date.now(),
-		done:false
+		updated_at:Date.now()
 	},function(err,todos){
 		if(err)
 			res.send(err);
@@ -60,6 +59,25 @@ app.delete('/api/todos/:todo_id',function(req,res){
 				res.send(err);
 			res.json(todos);
 		});
+	});
+});
+
+// modify the todo list
+app.put('/api/todos/:todo_id',function(req,res){
+	Todo.findById(req.params.todo_id,function(err,todo){
+		if(!todo)
+			res.send(err);
+		else{
+			todo.content = req.body.content;
+			todo.updated_at = Date.now();
+			todo.save(function(err){
+				Todo.find(function(err,todos){
+					if(err)
+						res.send(err);
+					res.json(todos);
+				});
+			});
+		}
 	});
 });
 

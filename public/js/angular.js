@@ -2,6 +2,7 @@ var todoList = angular.module('todoList',[]);
 
 function mainController($scope,$http){
 	$scope.formData = {};
+	$scope.newData={};
 	// when loading on the page, get all todos
 	$http.get('/api/todos')
 		.success(function(data){
@@ -25,7 +26,7 @@ function mainController($scope,$http){
 	};
 
 	// delete a todo after checking it
-	$scope.deleteTodo = function(){
+	$scope.deleteTodo = function(id){
 		$http.delete('/api/todos/'+id)
 			.success(function(data){
 				$scope.todos = data;
@@ -36,4 +37,16 @@ function mainController($scope,$http){
 			});
 	};
 
+	// update todo list
+	$scope.updateTodo = function(id){
+		$http.put('/api/todos/'+id,$scope.newData)
+			.success(function(data){
+				$scope.newData={};
+				$scope.todos = data;
+				console.log(data);
+			})
+			.error(function(data){
+				console.warn("Error "+data);
+			});
+	};
 }
